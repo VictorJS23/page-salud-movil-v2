@@ -22,8 +22,19 @@ formCrearCuenta.addEventListener('submit', (event) => {
     const fNacimiento = document.getElementById('inpFechas').value
     const email = document.getElementById('inpEmail').value
     const contrasenia = document.getElementById('inpPassword').value
+    const validacion = validarEmail(email)
+    let pass = true 
+    
+    const array = [nombre, apellido, fNacimiento, email, contrasenia]
+    
+    for(i = 0; i < array.length; i++){
+        if(array[i] === ''){
+            pass = false
+            break
+        }
+    }
 
-    if(validarEmail(email) === true){
+    if(validacion === true && pass === true){
         const persona = {
             name: nombre.toLowerCase(),
             lastName: apellido.toLowerCase(),
@@ -31,8 +42,13 @@ formCrearCuenta.addEventListener('submit', (event) => {
             email:email,
             password: contrasenia
         }
+            
         console.log(persona)
         alert("Usuario Creado con exito")
+
+    } else if(pass === false){
+        console.log("No pueden haber campos vacios")
+        alert("No pueden haber campos vacios")
     } else {
         console.log("El correo ingresado no es valido")
         alert("Email erroneo, El usuario no fue creado")
