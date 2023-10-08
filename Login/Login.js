@@ -15,7 +15,7 @@ formCrearCuenta.addEventListener('submit', (event) => {
     const validarEmail = ((email) => {
         const expresion= /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return expresion.test(String(email).toLowerCase())
-    }) 
+    })
 
     const nombre = document.getElementById('inpNombre').value
     const apellido = document.getElementById('inpApellido').value
@@ -23,7 +23,25 @@ formCrearCuenta.addEventListener('submit', (event) => {
     const email = document.getElementById('inpEmail').value
     const contrasenia = document.getElementById('inpPassword').value
     const validacion = validarEmail(email)
-    
+
+    function contNum(cadena) {
+        return /[0-9]/.test(cadena)
+    }
+
+    function contChar(cadena) {
+        return /[^a-zA-Z]/.test(cadena)
+    }
+
+    function sonStrings (nombre, apellido) {
+        if (typeof nombre === 'string' && typeof apellido === 'string' && !contChar(nombre) && !contChar(apellido) && !contNum(nombre) && !contNum(apellido)) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    const validacionNames = sonStrings(nombre, apellido)
+
     let pass = true
     const objeto = {
         nombre: nombre,
@@ -53,7 +71,7 @@ formCrearCuenta.addEventListener('submit', (event) => {
         }
     } 
 
-    if(validacion === true && pass === true){
+    if(validacion === true && validacionNames === true && pass === true){
         const persona = {
             name: nombre.toLowerCase(),
             lastName: apellido.toLowerCase(),
@@ -61,10 +79,12 @@ formCrearCuenta.addEventListener('submit', (event) => {
             email:email,
             password: contrasenia
         }
-        console.log(persona)
+        console.log(persona);
         swal("Bien hecho !!!", "El usuario ha sido creado con exito !!!", "success");
     } else if(pass === false){
         swal("Opps !!!", read(count), "error")
+    } else if(validacionNames === false){
+        swal("Opps !!!", "No se permiten numeros o simbolos en el apartado de nombres !!!", "error")
     } else {
         swal("Email erroneo", "El usuario no fue creado", "error")
     }
