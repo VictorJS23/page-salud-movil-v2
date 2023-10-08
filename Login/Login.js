@@ -64,10 +64,8 @@ formCrearCuenta.addEventListener('submit', (event) => {
         console.log(persona)
         swal("Bien hecho !!!", "El usuario ha sido creado con exito !!!", "success");
     } else if(pass === false){
-        console.log("No pueden haber campos vacios")
         swal("Opps !!!", read(count), "error")
     } else {
-        console.log("El correo ingresado no es valido")
         swal("Email erroneo", "El usuario no fue creado", "error")
     }
 
