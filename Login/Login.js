@@ -23,16 +23,35 @@ formCrearCuenta.addEventListener('submit', (event) => {
     const email = document.getElementById('inpEmail').value
     const contrasenia = document.getElementById('inpPassword').value
     const validacion = validarEmail(email)
-
-    const array = [nombre, apellido, fNacimiento, email, contrasenia]
-    let pass = true 
     
-    for(i = 0; i < array.length; i++){
-        if(array[i] === ''){
+    let pass = true
+    const objeto = {
+        nombre: nombre,
+        apellido: apellido,
+        fecha: fNacimiento,
+        email: email,
+        contrasenia: contrasenia
+    }
+
+    const array = []
+    
+    for (const propiedad in objeto) {
+        if (objeto[propiedad] === '') {
+            array.push(propiedad)
             pass = false
-            break
         }
     }
+
+    let exist = array.join(', ')
+    let count = array.length
+
+    function read (value) {
+        if(value === 1){
+            return `Hay ${value} campo que no puede estar vacio: ${exist}`
+        } else {
+            return `Hay ${value} campos que no pueden estar vacios: ${exist}`
+        }
+    } 
 
     if(validacion === true && pass === true){
         const persona = {
@@ -43,13 +62,13 @@ formCrearCuenta.addEventListener('submit', (event) => {
             password: contrasenia
         }
         console.log(persona)
-        alert("Usuario Creado con exito")
+        swal("Bien hecho !!!", "El usuario ha sido creado con exito !!!", "success");
     } else if(pass === false){
         console.log("No pueden haber campos vacios")
-        alert("No pueden haber campos vacios")
+        swal("Opps !!!", read(count), "error")
     } else {
         console.log("El correo ingresado no es valido")
-        alert("Email erroneo, El usuario no fue creado")
+        swal("Email erroneo", "El usuario no fue creado", "error")
     }
 
 })
