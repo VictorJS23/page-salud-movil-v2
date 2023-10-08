@@ -23,9 +23,9 @@ formCrearCuenta.addEventListener('submit', (event) => {
     const email = document.getElementById('inpEmail').value
     const contrasenia = document.getElementById('inpPassword').value
     const validacion = validarEmail(email)
-    let pass = true 
-    
+
     const array = [nombre, apellido, fNacimiento, email, contrasenia]
+    let pass = true 
     
     for(i = 0; i < array.length; i++){
         if(array[i] === ''){
@@ -42,10 +42,8 @@ formCrearCuenta.addEventListener('submit', (event) => {
             email:email,
             password: contrasenia
         }
-            
         console.log(persona)
         alert("Usuario Creado con exito")
-
     } else if(pass === false){
         console.log("No pueden haber campos vacios")
         alert("No pueden haber campos vacios")
