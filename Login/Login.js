@@ -3,7 +3,7 @@
 const btnInicioSecion = document.getElementById('btnIniciar-sesion')
 btnInicioSecion.addEventListener('click', (e) => {
     e.preventDefault()
-    alert('Iniciar secion')
+    swal("Nice!!", "Iniciar secion", "success")
 })
 
 // <<------------Apartado Creacion de cuentas------------>>
