@@ -40,7 +40,17 @@ formCrearCuenta.addEventListener('submit', (event) => {
         }
     }
 
+    function valuePassword (n) {
+        if(n.length >= 8){
+            return true
+        } else {
+            return false
+        }
+    }
+
     const validacionNames = sonStrings(nombre, apellido)
+
+    const validacionPassword = valuePassword(contrasenia)
 
     let pass = true
     const objeto = {
@@ -71,7 +81,7 @@ formCrearCuenta.addEventListener('submit', (event) => {
         }
     } 
 
-    if(validacion === true && validacionNames === true && pass === true){
+    if(validacion === true && validacionNames === true && pass === true && validacionPassword === true){
         const persona = {
             name: nombre.toLowerCase(),
             lastName: apellido.toLowerCase(),
@@ -85,6 +95,9 @@ formCrearCuenta.addEventListener('submit', (event) => {
         swal("Opps !!!", read(count), "error")
     } else if(validacionNames === false){
         swal("Opps !!!", "No se permiten numeros o simbolos en el apartado de nombres !!!", "error")
+    } else if(validacionPassword === false){
+        swal("Opps !!!", "La contraseña debe ser mayor a 8 caracteres", "error")
+
     } else {
         swal("Email erroneo", "El usuario no fue creado", "error")
     }
