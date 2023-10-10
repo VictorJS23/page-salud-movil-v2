@@ -141,7 +141,7 @@ formCrearCuenta.addEventListener('submit', (event) => {
         })
 
         function isValidPass(pass){
-            const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])/
+            const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])\S+$/
             const esContraValida = regex.test(pass)
 
             if (esContraValida && pass.length >= 8 && pass.length < 50){
