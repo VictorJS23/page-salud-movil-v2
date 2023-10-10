@@ -8,7 +8,7 @@ formCrearCuenta.addEventListener('submit', (event) => {
         
         const nombre = document.getElementById('inpNombre').value
         const apellido = document.getElementById('inpApellido').value
-        const fNacimiento = document.getElementById('inpFechas').value
+        const nombreUsuario = document.getElementById('inpUsername').value
         const email = document.getElementById('inpEmail').value
         const contrasenia = document.getElementById('inpPassword').value
 
@@ -29,23 +29,23 @@ formCrearCuenta.addEventListener('submit', (event) => {
             const esApellidoValido = regex.test(apellido)
 
             if (esNombreValido && esApellidoValido) {
-                inpNombre.style.borderColor = "green"
+                inpNombre.style.borderColor = "white"
                 inpNombre.style.borderStyle = "solid"
-                inpApellido.style.borderColor = "green"
+                inpApellido.style.borderColor = "white"
                 inpApellido.style.borderStyle = "solid"
                 return true
             } else if (!esNombreValido && esApellidoValido) {
                 inpNombre.style.borderStyle = "dashed"
                 inpNombre.style.borderColor = "red"
                 inpNombre.placeholder = "Nombre no válido"
-                inpApellido.style.borderColor = "green"
+                inpApellido.style.borderColor = "white"
                 inpApellido.style.borderStyle = "solid"
 
             } else if (!esApellidoValido && esNombreValido) {
                 inpApellido.style.borderStyle = "dashed"
                 inpApellido.style.borderColor = "red"
                 inpApellido.placeholder = "Apellido no válido"
-                inpNombre.style.borderColor = "green"
+                inpNombre.style.borderColor = "white"
                 inpNombre.style.borderStyle = "solid"
             } else {
                 return false
@@ -74,48 +74,33 @@ formCrearCuenta.addEventListener('submit', (event) => {
         inpApellido.addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
                 event.preventDefault();
-                inpFecha.focus();
+                inpUserName.focus();
             }
         })
 
-        const inpFecha = document.getElementById('inpFechas')
-        inpFecha.addEventListener('input', function() {
-            isValidDate(inpFecha.value)
+        const inpUserName = document.getElementById('inpUsername')
+        inpUserName.addEventListener('input', function() {
+            isValidUserName(inpUserName.value)
         })
 
-        function isValidDate(dateString) {
-            if (typeof dateString !== "string") {
-                inpFecha.style.borderStyle = "dashed"
-                inpFecha.style.borderColor = "red"
-                inpFecha.placeholder = "Formato no valido"
-                return false;
-            }
-            const regex = /^\d{2}\/\d{2}\/\d{4}$/;
-            if (regex.test(dateString)) {
-                inpFecha.style.borderStyle = "solid"
-                inpFecha.style.borderColor = "green"
+        function isValidUserName(username) {
+            const regex = /^[a-zA-Z0-9_-]+$/
+            const esNombreUserValido = regex.test(username)
+
+            if(esNombreUserValido && username.length > 3 && username.length < 15){
+                inpUserName.style.borderColor = "white"
+                inpUserName.style.borderStyle = "solid"
                 return true
             } else {
-                inpFecha.style.borderStyle = "dashed"
-                inpFecha.style.borderColor = "red"
-                inpFecha.placeholder = "Formato no valido"
-                return false;
+                inpUserName.style.borderStyle = "dashed"
+                inpUserName.style.borderColor = "red"
+                inpUserName.placeholder = "Nombre de usuario no válido"
+                return false
             }
+            
         }
 
-        inpFecha.addEventListener('keydown', function() {
-            let fecha = inpFecha.value
-            fecha = fecha.replace(/-/g, "/")
-            inpFecha.value = fecha
-        })
-
-        inpFecha.addEventListener('change', function() {
-            let fecha = inpFecha.value
-            fecha = fecha.replace(/-/g, "/")
-            inpFecha.value = fecha
-        })
-
-        inpFecha.addEventListener('keydown', function(event) {
+        inpUserName.addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
                 event.preventDefault();
                 inpEmail.focus();
@@ -133,7 +118,7 @@ formCrearCuenta.addEventListener('submit', (event) => {
 
             if(esEmailValido){
                 inpEmail.style.borderStyle = "solid"
-                inpEmail.style.borderColor = "green"
+                inpEmail.style.borderColor = "white"
                 return true
             } else {
                 inpEmail.style.borderStyle = "dashed"
@@ -156,28 +141,36 @@ formCrearCuenta.addEventListener('submit', (event) => {
         })
 
         function isValidPass(pass){
-            if (pass !== ""){
+            const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])/
+            const esContraValida = regex.test(pass)
+
+            if (esContraValida && pass.length >= 8 && pass.length < 50){
                 inpContra.style.borderStyle = "solid"
-                inpContra.style.borderColor = "green"
+                inpContra.style.borderColor = "white"
                 return true
-            } else {
+            } else if(pass === '') {
                 inpContra.style.borderStyle = "dashed"
                 inpContra.style.borderColor = "red"
                 inpContra.placeholder = "El campo no puede estar vacio"
+                return false
+            } else {
+                inpContra.style.borderStyle = "dashed"
+                inpContra.style.borderColor = "red"
+                inpContra.placeholder = "Contraseña no valida"
                 return false
             }
         }
 
         const validacionNames = isValidNames(nombre, apellido)
-        const validacionFecha = isValidDate(fNacimiento)
+        const validacionUser = isValidUserName(nombreUsuario)
         const validacionEmail = isValidEmail(email)
         const validacionContr = isValidPass(contrasenia)
 
-        if (validacionEmail && validacionNames && validacionFecha && validacionContr) {
+        if (validacionEmail && validacionNames && validacionUser && validacionContr) {
             const persona = {
-                name: nombre.toLowerCase(),
-                lastName: apellido.toLowerCase(),
-                date: fNacimiento,
+                first_name: nombre,
+                last_name: apellido,
+                user_name: nombreUsuario,
                 email: email,
                 password: contrasenia
             }
