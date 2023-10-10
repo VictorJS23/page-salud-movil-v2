@@ -15,7 +15,7 @@ body{
     justify-content: center;
     flex-direction: column;
     height: 100vh;
-}
+} 
 
 .Localcontainer{
     background-color: #fff;
@@ -210,4 +210,13 @@ body{
 
 .Localcontainer.active .Localtoggle-right{
     transform: translateX(200%);
+}
+
+.Localsocial-icons :hover {
+    background-color: #efefef;
+    transform: scale(1.1);
+}
+
+.btnInicioSecion:hover {
+    transform: scale(1.1);
 }
