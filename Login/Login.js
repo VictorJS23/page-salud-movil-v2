@@ -1,121 +1,216 @@
-// <<------------Apartado Inicio de sesion------------>>
-
-const btnInicioSecion = document.getElementById('btnIniciar-sesion')
-btnInicioSecion.addEventListener('click', (e) => {
-    e.preventDefault()
-    swal("Nice!!", "Iniciar secion", "success")
-})
-
 // <<------------Apartado Creacion de cuentas------------>>
 
 const formCrearCuenta = document.getElementById('formCrearCuenta')
 formCrearCuenta.addEventListener('submit', (event) => {
     event.preventDefault()
 
-    const validarEmail = ((email) => {
-        const expresion= /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return expresion.test(String(email).toLowerCase())
-    })
+    function validarRegistro() {
+        
+        const nombre = document.getElementById('inpNombre').value
+        const apellido = document.getElementById('inpApellido').value
+        const fNacimiento = document.getElementById('inpFechas').value
+        const email = document.getElementById('inpEmail').value
+        const contrasenia = document.getElementById('inpPassword').value
 
-    const nombre = document.getElementById('inpNombre').value
-    const apellido = document.getElementById('inpApellido').value
-    const fNacimiento = document.getElementById('inpFechas').value
-    const email = document.getElementById('inpEmail').value
-    const contrasenia = document.getElementById('inpPassword').value
-    const validacion = validarEmail(email)
+        const inpNombre = document.getElementById('inpNombre')
+        const inpApellido = document.getElementById('inpApellido')
 
-    function contNum(cadena) {
-        return /[0-9]/.test(cadena)
-    }
+        inpNombre.addEventListener('input', function() {
+            isValidNames(inpNombre.value, inpApellido.value)
+        })
 
-    function contChar(cadena) {
-        return /[^a-zA-Z]/.test(cadena)
-    }
+        inpApellido.addEventListener('input', function() {
+            isValidNames(inpNombre.value, inpApellido.value)
+        })
 
-    function sonStrings (nombre, apellido) {
-        if (typeof nombre === 'string' && typeof apellido === 'string' && !contChar(nombre) && !contChar(apellido) && !contNum(nombre) && !contNum(apellido)) {
-            return true
-        } else {
-            return false
+        function isValidNames(nombre, apellido) {
+            const regex = /^[A-Za-z\s]+$/
+            const esNombreValido = regex.test(nombre)
+            const esApellidoValido = regex.test(apellido)
+
+            if (esNombreValido && esApellidoValido) {
+                inpNombre.style.borderColor = "green"
+                inpNombre.style.borderStyle = "solid"
+                inpApellido.style.borderColor = "green"
+                inpApellido.style.borderStyle = "solid"
+                return true
+            } else if (!esNombreValido && esApellidoValido) {
+                inpNombre.style.borderStyle = "dashed"
+                inpNombre.style.borderColor = "red"
+                inpNombre.placeholder = "Nombre no válido"
+                inpApellido.style.borderColor = "green"
+                inpApellido.style.borderStyle = "solid"
+
+            } else if (!esApellidoValido && esNombreValido) {
+                inpApellido.style.borderStyle = "dashed"
+                inpApellido.style.borderColor = "red"
+                inpApellido.placeholder = "Apellido no válido"
+                inpNombre.style.borderColor = "green"
+                inpNombre.style.borderStyle = "solid"
+            } else {
+                return false
+            }
         }
-    }
 
-    function valuePassword (n) {
-        if(n.length >= 8){
-            return true
-        } else {
-            return false
+        inpNombre.addEventListener('change', function() {
+            let nombre = inpNombre.value
+            nombre = nombre.replace(/[^A-Za-z\s]/g, "")
+            inpNombre.value = nombre
+        })
+
+        inpNombre.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                inpApellido.focus();
+            }
+        })
+
+        inpApellido.addEventListener('change', function() {
+            let apellido = inpApellido.value
+            apellido = apellido.replace(/[^A-Za-z\s]/g, "")
+            inpApellido.value = apellido
+        })
+
+        inpApellido.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                inpFecha.focus();
+            }
+        })
+
+        const inpFecha = document.getElementById('inpFechas')
+        inpFecha.addEventListener('input', function() {
+            isValidDate(inpFecha.value)
+        })
+
+        function isValidDate(dateString) {
+            if (typeof dateString !== "string") {
+                inpFecha.style.borderStyle = "dashed"
+                inpFecha.style.borderColor = "red"
+                inpFecha.placeholder = "Formato no valido"
+                return false;
+            }
+            const regex = /^\d{2}\/\d{2}\/\d{4}$/;
+            if (regex.test(dateString)) {
+                inpFecha.style.borderStyle = "solid"
+                inpFecha.style.borderColor = "green"
+                return true
+            } else {
+                inpFecha.style.borderStyle = "dashed"
+                inpFecha.style.borderColor = "red"
+                inpFecha.placeholder = "Formato no valido"
+                return false;
+            }
         }
-    }
 
-    const validacionNames = sonStrings(nombre, apellido)
+        inpFecha.addEventListener('keydown', function() {
+            let fecha = inpFecha.value
+            fecha = fecha.replace(/-/g, "/")
+            inpFecha.value = fecha
+        })
 
-    const validacionPassword = valuePassword(contrasenia)
+        inpFecha.addEventListener('change', function() {
+            let fecha = inpFecha.value
+            fecha = fecha.replace(/-/g, "/")
+            inpFecha.value = fecha
+        })
 
-    let pass = true
-    const objeto = {
-        nombre: nombre,
-        apellido: apellido,
-        fecha: fNacimiento,
-        email: email,
-        contrasenia: contrasenia
-    }
+        inpFecha.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                inpEmail.focus();
+            }
+        })
+        
+        const inpEmail = document.getElementById('inpEmail')
+        inpEmail.addEventListener('input', function() {
+            isValidEmail(inpEmail.value)
+        })
 
-    const array = []
-    
-    for (const propiedad in objeto) {
-        if (objeto[propiedad] === '') {
-            array.push(propiedad)
-            pass = false
+        function isValidEmail(email){
+            const expresion = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            const esEmailValido = expresion.test(String(email).toLowerCase())
+
+            if(esEmailValido){
+                inpEmail.style.borderStyle = "solid"
+                inpEmail.style.borderColor = "green"
+                return true
+            } else {
+                inpEmail.style.borderStyle = "dashed"
+                inpEmail.style.borderColor = "red"
+                inpEmail.placeholder = "Formato no valido"
+                return false
+            }
         }
+
+        inpEmail.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                inpContra.focus();
+            }
+        })
+        
+        const inpContra = document.getElementById('inpPassword')
+        inpContra.addEventListener('input', function () {
+            isValidPass(inpContra.value)
+        })
+
+        function isValidPass(pass){
+            if (pass !== ""){
+                inpContra.style.borderStyle = "solid"
+                inpContra.style.borderColor = "green"
+                return true
+            } else {
+                inpContra.style.borderStyle = "dashed"
+                inpContra.style.borderColor = "red"
+                inpContra.placeholder = "El campo no puede estar vacio"
+                return false
+            }
+        }
+
+        const validacionNames = isValidNames(nombre, apellido)
+        const validacionFecha = isValidDate(fNacimiento)
+        const validacionEmail = isValidEmail(email)
+        const validacionContr = isValidPass(contrasenia)
+
+        if (validacionEmail && validacionNames && validacionFecha && validacionContr) {
+            const persona = {
+                name: nombre.toLowerCase(),
+                lastName: apellido.toLowerCase(),
+                date: fNacimiento,
+                email: email,
+                password: contrasenia
+            }
+            console.log(persona)
+            swal("¡Bien hecho!", "El usuario ha sido creado con éxito.", "success")
+        } 
     }
 
-    let exist = array.join(', ')
-    let count = array.length
-
-    function read (value) {
-        if(value === 1){
-            return `Hay ${value} campo que no puede estar vacio: ${exist}`
-        } else {
-            return `Hay ${value} campos que no pueden estar vacios: ${exist}`
-        }
-    } 
-
-    if(validacion === true && validacionNames === true && pass === true && validacionPassword === true){
-        const persona = {
-            name: nombre.toLowerCase(),
-            lastName: apellido.toLowerCase(),
-            date: fNacimiento,
-            email:email,
-            password: contrasenia
-        }
-        console.log(persona);
-        swal("Bien hecho !!!", "El usuario ha sido creado con exito !!!", "success");
-    } else if(pass === false){
-        swal("Opps !!!", read(count), "error")
-    } else if(validacionNames === false){
-        swal("Opps !!!", "No se permiten numeros o simbolos en el apartado de nombres !!!", "error")
-    } else if(validacionPassword === false){
-        swal("Opps !!!", "La contraseña debe ser mayor a 8 caracteres", "error")
-
-    } else {
-        swal("Email erroneo", "El usuario no fue creado", "error")
-    }
+    validarRegistro()
 
 })
+
+// <<------------Apartado Inicio de sesion------------>>
+
+    const btnInicioSecion = document.getElementById('btnIniciar-sesion')
+    btnInicioSecion.addEventListener('click', (e) => {
+        e.preventDefault()
+        swal("Nice!!", "Iniciar secion", "success")
+    })
+
 
 // ----------------------------------------------------------------
 //                         NO TOCAR
 //-----------------------------------------------------------------
 
-const container = document.getElementById('container');
-const registerBtn = document.getElementById('register');
-const loginBtn = document.getElementById('login');
+const container = document.getElementById('container')
+const registerBtn = document.getElementById('register')
+const loginBtn = document.getElementById('login')
 
 registerBtn.addEventListener('click', () => {
     container.classList.add("active")
-});
+})
 
 loginBtn.addEventListener('click', () => {
     container.classList.remove("active")
-});
+})
