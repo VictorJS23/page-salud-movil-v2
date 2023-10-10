@@ -159,6 +159,7 @@ formCrearCuenta.addEventListener('submit', (event) => {
                 inpContra.placeholder = "Contraseña no valida"
                 return false
             }
+            //
         }
 
         const validacionNames = isValidNames(nombre, apellido)
