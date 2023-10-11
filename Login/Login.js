@@ -30,6 +30,8 @@ formCrearCuenta.addEventListener('submit', (event) => {
             const regex = /^[A-Za-z\s]+$/
             const esNombreValido = regex.test(nombre)
             const esApellidoValido = regex.test(apellido)
+            const Nespacios = nombre.includes(' ')
+            const Aespacios = apellido.includes(' ')
 
             if (esNombreValido && esApellidoValido) {
                 inpNombre.style.borderColor = "white"
@@ -40,7 +42,7 @@ formCrearCuenta.addEventListener('submit', (event) => {
                 inpApellido.style.borderStyle = "solid"
                 errorApellido.textContent = ""
                 return true
-            } else if (!esNombreValido && esApellidoValido) {
+            } else if (!esNombreValido || esApellidoValido) {
                 inpNombre.style.borderStyle = "dashed"
                 inpNombre.style.borderColor = "red"
                 inpNombre.placeholder = "No se permiten numeros o simbolos"
@@ -49,6 +51,18 @@ formCrearCuenta.addEventListener('submit', (event) => {
                 inpApellido.style.borderColor = "white"
                 inpApellido.style.borderStyle = "solid"
                 errorApellido.textContent = ""
+
+                if(Nespacios){
+                    inpNombre.style.borderStyle = "dashed"
+                    inpNombre.style.borderColor = "red"
+                    inpNombre.placeholder = "No se permiten espacios"
+                    errorNombre.textContent = "No se permiten espacios"
+                } else if (Aespacios){
+                    inpApellido.style.borderStyle = "dashed"
+                    inpApellido.style.borderColor = "red"
+                    inpApellido.placeholder = "No se permiten espacios"
+                    errorApellido.textContent = "No se permiten espacios"
+                }
 
                 if(nombre === ''){
                     inpNombre.style.borderStyle = "dashed"
@@ -64,7 +78,7 @@ formCrearCuenta.addEventListener('submit', (event) => {
                     errorApellido.textContent = "El campo no puede estar vacio"
                 }
 
-            } else if (!esApellidoValido && esNombreValido) {
+            } else if (!esApellidoValido || esNombreValido) {
                 inpApellido.style.borderStyle = "dashed"
                 inpApellido.style.borderColor = "red"
                 inpApellido.placeholder = "No se permiten numeros o simbolos"
@@ -73,6 +87,18 @@ formCrearCuenta.addEventListener('submit', (event) => {
                 inpNombre.style.borderColor = "white"
                 inpNombre.style.borderStyle = "solid"
                 errorNombre.textContent = ""
+
+                if(Nespacios){
+                    inpNombre.style.borderStyle = "dashed"
+                    inpNombre.style.borderColor = "red"
+                    inpNombre.placeholder = "No se permiten espacios"
+                    errorNombre.textContent = "No se permiten espacios"
+                } else if (Aespacios){
+                    inpApellido.style.borderStyle = "dashed"
+                    inpApellido.style.borderColor = "red"
+                    inpApellido.placeholder = "No se permiten espacios"
+                    errorApellido.textContent = "No se permiten espacios"
+                }
 
                 if(nombre === ''){
                     inpNombre.style.borderStyle = "dashed"
