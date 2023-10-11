@@ -13,7 +13,10 @@ formCrearCuenta.addEventListener('submit', (event) => {
         const contrasenia = document.getElementById('inpPassword').value
 
         const inpNombre = document.getElementById('inpNombre')
+        const errorNombre = document.getElementById('errorNombre')
+
         const inpApellido = document.getElementById('inpApellido')
+        const errorApellido = document.getElementById('errorApellido')
 
         inpNombre.addEventListener('input', function() {
             isValidNames(inpNombre.value, inpApellido.value)
@@ -31,23 +34,70 @@ formCrearCuenta.addEventListener('submit', (event) => {
             if (esNombreValido && esApellidoValido) {
                 inpNombre.style.borderColor = "white"
                 inpNombre.style.borderStyle = "solid"
+                errorNombre.textContent = ""
+
                 inpApellido.style.borderColor = "white"
                 inpApellido.style.borderStyle = "solid"
+                errorApellido.textContent = ""
                 return true
             } else if (!esNombreValido && esApellidoValido) {
                 inpNombre.style.borderStyle = "dashed"
                 inpNombre.style.borderColor = "red"
-                inpNombre.placeholder = "Nombre no válido"
+                inpNombre.placeholder = "No se permiten numeros o simbolos"
+                errorNombre.textContent = "No se permiten numeros o simbolos"
+
                 inpApellido.style.borderColor = "white"
                 inpApellido.style.borderStyle = "solid"
+                errorApellido.textContent = ""
+
+                if(nombre === ''){
+                    inpNombre.style.borderStyle = "dashed"
+                    inpNombre.style.borderColor = "red"
+                    inpNombre.placeholder = "El campo no puede estar vacio"
+                    errorNombre.textContent = "El campo no puede estar vacio"
+                }
+
+                if(apellido === ''){
+                    inpApellido.style.borderStyle = "dashed"
+                    inpApellido.style.borderColor = "red"
+                    inpApellido.placeholder = "El campo no puede estar vacio"
+                    errorApellido.textContent = "El campo no puede estar vacio"
+                }
 
             } else if (!esApellidoValido && esNombreValido) {
                 inpApellido.style.borderStyle = "dashed"
                 inpApellido.style.borderColor = "red"
-                inpApellido.placeholder = "Apellido no válido"
+                inpApellido.placeholder = "No se permiten numeros o simbolos"
+                errorApellido.textContent = "No se permiten numeros o simbolos"
+
                 inpNombre.style.borderColor = "white"
                 inpNombre.style.borderStyle = "solid"
+                errorNombre.textContent = ""
+
+                if(nombre === ''){
+                    inpNombre.style.borderStyle = "dashed"
+                    inpNombre.style.borderColor = "red"
+                    inpNombre.placeholder = "El campo no puede estar vacio"
+                    errorNombre.textContent = "El campo no puede estar vacio"
+                }
+
+                if(apellido === ''){
+                    inpApellido.style.borderStyle = "dashed"
+                    inpApellido.style.borderColor = "red"
+                    inpApellido.placeholder = "El campo no puede estar vacio"
+                    errorApellido.textContent = "El campo no puede estar vacio"
+                }
+
             } else {
+                inpNombre.style.borderStyle = "dashed"
+                inpNombre.style.borderColor = "red"
+                inpNombre.placeholder = "El campo no puede estar vacio"
+                errorNombre.textContent = "El campo no puede estar vacio"
+
+                inpApellido.style.borderStyle = "dashed"
+                inpApellido.style.borderColor = "red"
+                inpApellido.placeholder = "El campo no puede estar vacio"
+                errorApellido.textContent = "El campo no puede estar vacio"
                 return false
             }
         }
@@ -79,6 +129,8 @@ formCrearCuenta.addEventListener('submit', (event) => {
         })
 
         const inpUserName = document.getElementById('inpUsername')
+        const errorUsername = document.getElementById('errorUsername')
+
         inpUserName.addEventListener('input', function() {
             isValidUserName(inpUserName.value)
         })
@@ -90,15 +142,45 @@ formCrearCuenta.addEventListener('submit', (event) => {
             if(esNombreUserValido && username.length > 3 && username.length < 15){
                 inpUserName.style.borderColor = "white"
                 inpUserName.style.borderStyle = "solid"
+                errorUsername.textContent = ""
                 return true
-            } else {
-                inpUserName.style.borderStyle = "dashed"
+            } else if (!esNombreUserValido){
                 inpUserName.style.borderColor = "red"
-                inpUserName.placeholder = "Nombre de usuario no válido"
+                inpUserName.style.borderStyle = "dashed"
+                inpUserName.placeholder = "El nombre de usuario no es valido"
+                errorUsername.textContent = "El nombre de usuario no es valido"
+
+                if(username === ''){
+                    inpUserName.style.borderColor = "red"
+                    inpUserName.style.borderStyle = "dashed"
+                    inpUserName.placeholder = "El campo no puede estar vacio"
+                    errorUsername.textContent = "El campo no puede estar vacio"
+                }
+
+            } else if (username.length < 3 || username.length > 15){
+                inpUserName.style.borderColor = "red"
+                inpUserName.style.borderStyle = "dashed"
+                inpUserName.placeholder = "El nombre de usuario no es valido"
+                errorUsername.textContent = "Debe haber un minimo de 3 y maximo 15 caracteres"
+
+                if(username === ''){
+                    inpUserName.style.borderColor = "red"
+                    inpUserName.style.borderStyle = "dashed"
+                    inpUserName.placeholder = "El campo no puede estar vacio"
+                    errorUsername.textContent = "El campo no puede estar vacio"
+                }
+            } else {
+                inpUserName.placeholder = "El campo no puede estar vacio"
+                errorUsername.textContent = "El campo no puede estar vacio"
                 return false
             }
-            
         }
+
+        inpUserName.addEventListener('change', function() {
+            let username = inpUserName.value
+            username = username.replace(/[^a-zA-Z0-9_-]/g, "")
+            inpUserName.value = username
+        })
 
         inpUserName.addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
@@ -108,6 +190,7 @@ formCrearCuenta.addEventListener('submit', (event) => {
         })
         
         const inpEmail = document.getElementById('inpEmail')
+        const errorEmail = document.getElementById('errorEmail');
         inpEmail.addEventListener('input', function() {
             isValidEmail(inpEmail.value)
         })
@@ -119,11 +202,18 @@ formCrearCuenta.addEventListener('submit', (event) => {
             if(esEmailValido){
                 inpEmail.style.borderStyle = "solid"
                 inpEmail.style.borderColor = "white"
+                errorEmail.textContent = ""
                 return true
+            } else if(email === ''){
+                inpEmail.style.borderStyle = "dashed"
+                inpEmail.style.borderColor = "red"
+                inpEmail.placeholder = "El campo no puede estar vacio"
+                errorEmail.textContent = "El campo no puede estar vacio"
             } else {
                 inpEmail.style.borderStyle = "dashed"
                 inpEmail.style.borderColor = "red"
                 inpEmail.placeholder = "Formato no valido"
+                errorEmail.textContent = "Formato email no válido"
                 return false
             }
         }
@@ -136,6 +226,8 @@ formCrearCuenta.addEventListener('submit', (event) => {
         })
         
         const inpContra = document.getElementById('inpPassword')
+        const errorPassword = document.getElementById('errorPassword')
+
         inpContra.addEventListener('input', function () {
             isValidPass(inpContra.value)
         })
@@ -143,20 +235,58 @@ formCrearCuenta.addEventListener('submit', (event) => {
         function isValidPass(pass){
             const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])\S+$/
             const esContraValida = regex.test(pass)
+            const contieneEspacios = pass.includes(' ')
 
             if (esContraValida && pass.length >= 8 && pass.length < 50){
                 inpContra.style.borderStyle = "solid"
                 inpContra.style.borderColor = "white"
+                errorPassword.textContent = ""
                 return true
-            } else if(pass === '') {
-                inpContra.style.borderStyle = "dashed"
+            } else if(pass.length < 8 || pass.length > 50) {
                 inpContra.style.borderColor = "red"
-                inpContra.placeholder = "El campo no puede estar vacio"
-                return false
-            } else {
+                inpContra.style.borderStyle = "dashed"
+                inpContra.placeholder = "La contraseña no es valida de usuario no es valido"
+                errorPassword.textContent = "Debe haber un minimo de 8 y maximo 50 caracteres"
+
+                if(contieneEspacios){
+                    inpContra.style.borderStyle = "dashed"
+                    inpContra.style.borderColor = "red"
+                    inpContra.placeholder = "No se permiten espacios"
+                    errorPassword.textContent = "No se permiten espacios"
+                }
+
+                if(pass === ''){
+                    inpContra.style.borderStyle = "dashed"
+                    inpContra.style.borderColor = "red"
+                    inpContra.placeholder = "El campo no puede estar vacio"
+                    errorPassword.textContent = "El campo no puede estar vacio"
+                }
+                
+            } else if(!esContraValida){
                 inpContra.style.borderStyle = "dashed"
                 inpContra.style.borderColor = "red"
                 inpContra.placeholder = "Contraseña no valida"
+                errorPassword.textContent = "Debe contener letras al menos 1 mayuscula, numeros y simbolos"
+
+                if(contieneEspacios){
+                    inpContra.style.borderStyle = "dashed"
+                    inpContra.style.borderColor = "red"
+                    inpContra.placeholder = "No se permiten espacios"
+                    errorPassword.textContent = "No se permiten espacios"
+                }
+
+                if(pass === ''){
+                    inpContra.style.borderStyle = "dashed"
+                    inpContra.style.borderColor = "red"
+                    inpContra.placeholder = "El campo no puede estar vacio"
+                    errorPassword.textContent = "El campo no puede estar vacio"
+                }
+                
+            } else {
+                inpContra.style.borderStyle = "dashed"
+                inpContra.style.borderColor = "red"
+                inpContra.placeholder = "El campo no puede estar vacio"
+                errorPassword.textContent = "El campo no puede estar vacio"
                 return false
             }
         }
@@ -170,7 +300,7 @@ formCrearCuenta.addEventListener('submit', (event) => {
             const persona = {
                 first_name: nombre,
                 last_name: apellido,
-                user_name: nombreUsuario,
+                username: nombreUsuario,
                 email: email,
                 password: contrasenia
             }
