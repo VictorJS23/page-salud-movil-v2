@@ -337,6 +337,8 @@ formCrearCuenta.addEventListener('submit', (event) => {
 
     validarRegistro()
 
+    // Aca esta el retorno del nuevo usuario: Esta variable representa el NewUser
+    
     const newUser = validarRegistro()
     console.log(newUser)
 })
