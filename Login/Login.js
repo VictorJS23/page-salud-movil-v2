@@ -330,14 +330,17 @@ formCrearCuenta.addEventListener('submit', (event) => {
                 email: email,
                 password: contrasenia
             }
-            console.log(persona)
             swal("¡Bien hecho!", "El usuario ha sido creado con éxito.", "success")
+            return persona
         } 
     }
 
     validarRegistro()
 
+    const newUser = validarRegistro()
+    console.log(newUser)
 })
+
 
 // <<------------Apartado Inicio de sesion------------>>
 
