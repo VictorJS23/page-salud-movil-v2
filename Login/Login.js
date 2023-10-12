@@ -30,8 +30,8 @@ formCrearCuenta.addEventListener('submit', (event) => {
             const regex = /^[A-Za-z\s]+$/
             const esNombreValido = regex.test(nombre)
             const esApellidoValido = regex.test(apellido)
-            const Nespacios = nombre.includes(' ')
-            const Aespacios = apellido.includes(' ')
+            const Nespacios = (nombre.match(/\s/g) || []).length
+            const Aespacios = (apellido.match(/\s/g) || []).length
 
             if (esNombreValido && esApellidoValido) {
                 inpNombre.style.borderColor = "white"
@@ -42,7 +42,7 @@ formCrearCuenta.addEventListener('submit', (event) => {
                 inpApellido.style.borderStyle = "solid"
                 errorApellido.textContent = ""
                 return true
-            } else if (!esNombreValido || esApellidoValido) {
+            } else if (!esNombreValido && esApellidoValido) {
                 inpNombre.style.borderStyle = "dashed"
                 inpNombre.style.borderColor = "red"
                 inpNombre.placeholder = "No se permiten numeros o simbolos"
@@ -52,12 +52,14 @@ formCrearCuenta.addEventListener('submit', (event) => {
                 inpApellido.style.borderStyle = "solid"
                 errorApellido.textContent = ""
 
-                if(Nespacios){
+                if(Nespacios > 0){
                     inpNombre.style.borderStyle = "dashed"
                     inpNombre.style.borderColor = "red"
                     inpNombre.placeholder = "No se permiten espacios"
                     errorNombre.textContent = "No se permiten espacios"
-                } else if (Aespacios){
+                } 
+                
+                if (Aespacios > 0){
                     inpApellido.style.borderStyle = "dashed"
                     inpApellido.style.borderColor = "red"
                     inpApellido.placeholder = "No se permiten espacios"
@@ -78,7 +80,7 @@ formCrearCuenta.addEventListener('submit', (event) => {
                     errorApellido.textContent = "El campo no puede estar vacio"
                 }
 
-            } else if (!esApellidoValido || esNombreValido) {
+            } else if (!esApellidoValido && esNombreValido) {
                 inpApellido.style.borderStyle = "dashed"
                 inpApellido.style.borderColor = "red"
                 inpApellido.placeholder = "No se permiten numeros o simbolos"
@@ -87,18 +89,20 @@ formCrearCuenta.addEventListener('submit', (event) => {
                 inpNombre.style.borderColor = "white"
                 inpNombre.style.borderStyle = "solid"
                 errorNombre.textContent = ""
-
-                if(Nespacios){
-                    inpNombre.style.borderStyle = "dashed"
-                    inpNombre.style.borderColor = "red"
-                    inpNombre.placeholder = "No se permiten espacios"
-                    errorNombre.textContent = "No se permiten espacios"
-                } else if (Aespacios){
+                
+                if(Aespacios > 0){
                     inpApellido.style.borderStyle = "dashed"
                     inpApellido.style.borderColor = "red"
                     inpApellido.placeholder = "No se permiten espacios"
                     errorApellido.textContent = "No se permiten espacios"
                 }
+
+                if(Nespacios > 0){
+                    inpNombre.style.borderStyle = "dashed"
+                    inpNombre.style.borderColor = "red"
+                    inpNombre.placeholder = "No se permiten espacios"
+                    errorNombre.textContent = "No se permiten espacios"
+                } 
 
                 if(nombre === ''){
                     inpNombre.style.borderStyle = "dashed"
@@ -124,13 +128,27 @@ formCrearCuenta.addEventListener('submit', (event) => {
                 inpApellido.style.borderColor = "red"
                 inpApellido.placeholder = "El campo no puede estar vacio"
                 errorApellido.textContent = "El campo no puede estar vacio"
+
+                if(Nespacios > 0){
+                    inpNombre.style.borderStyle = "dashed"
+                    inpNombre.style.borderColor = "red"
+                    inpNombre.placeholder = "No se permiten espacios"
+                    errorNombre.textContent = "No se permiten espacios"
+                } 
+                
+                if (Aespacios > 0){
+                    inpApellido.style.borderStyle = "dashed"
+                    inpApellido.style.borderColor = "red"
+                    inpApellido.placeholder = "No se permiten espacios"
+                    errorApellido.textContent = "No se permiten espacios"
+                }
                 return false
             }
         }
 
         inpNombre.addEventListener('change', function() {
             let nombre = inpNombre.value
-            nombre = nombre.replace(/[^A-Za-z\s]/g, "")
+            nombre = nombre.replace(/[^A-Za-z\s]/g, "").replace(/\s+/g, "")
             inpNombre.value = nombre
         })
 
@@ -143,7 +161,7 @@ formCrearCuenta.addEventListener('submit', (event) => {
 
         inpApellido.addEventListener('change', function() {
             let apellido = inpApellido.value
-            apellido = apellido.replace(/[^A-Za-z\s]/g, "")
+            apellido = apellido.replace(/[^A-Za-z\s]/g, "").replace(/\s+/g, "")
             inpApellido.value = apellido
         })
 
@@ -330,17 +348,27 @@ formCrearCuenta.addEventListener('submit', (event) => {
                 email: email,
                 password: contrasenia
             }
+
             swal("¡Bien hecho!", "El usuario ha sido creado con éxito.", "success")
+
             return persona
-        } 
+        } else {
+            console.log("El usuario no pudo ser creado")
+            return null
+        }
+    }
+        
+    // Aca esta el retorno del nuevo usuario: Esta variable representa el NewUser
+    const newUser = validarRegistro()
+    if(newUser !== null){
+        console.log(newUser)
     }
 
-    validarRegistro()
+    // const redirection = document.getElementById('btnCrearCuenta')
+    // redirection.addEventListener('click', function(){
+    //     window.location.href = "prueba.html"
+    // })
 
-    // Aca esta el retorno del nuevo usuario: Esta variable representa el NewUser
-    
-    const newUser = validarRegistro()
-    console.log(newUser)
 })
 
 
