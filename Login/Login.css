@@ -47,7 +47,7 @@ body{
 }
 
 .Localcontainer button{
-    background-color: #754bc3;
+    background-color: #33BBC5;
     color: #fff;
     font-size: 12px;
     padding: 10px 45px;
@@ -164,9 +164,9 @@ body{
 }
 
 .Localtoggle{
-    background-color: #754bc3;
+    background-color: #33BBC5;
     height: 100%;
-    background: linear-gradient(to right, #5c6bc0, #754bc3);
+    background: linear-gradient(to right, #33BBC5, #33BBC5);
     color: #fff;
     position: relative;
     left: -100%;
