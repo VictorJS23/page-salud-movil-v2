@@ -378,7 +378,7 @@ formCrearCuenta.addEventListener('submit', (event) => {
     btnInicioSecion.addEventListener('click', (e) => {
         e.preventDefault()
         swal("Nice!!", "Iniciar secion", "success")
-    })
+    });
 
 
 // ----------------------------------------------------------------
